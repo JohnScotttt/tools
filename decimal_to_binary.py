@@ -1,55 +1,25 @@
 # Written by chatGPT
 
-def decimal_to_binary(num):
-    """
-    将十进制数转换为32位二进制浮点格式
-    """
-    # 检查数字是否为零
-    if num == 0:
-        return '0'*32
+import struct
 
-    # 检查数字是否为负数
-    sign = 0
-    if num < 0:
-        sign = 1
-        num = abs(num)
+def decimal_to_binary(decimal_num, num_bits):
+    if num_bits == 32:
+        # Convert decimal number to 32-bit binary representation
+        binary_num = struct.pack('>f', decimal_num)
+        binary_num = struct.unpack('>l', binary_num)[0]
+        binary_num = bin(binary_num & 0xffffffff)[2:].zfill(32)
+    elif num_bits == 64:
+        # Convert decimal number to 64-bit binary representation
+        binary_num = struct.pack('>d', decimal_num)
+        binary_num = struct.unpack('>q', binary_num)[0]
+        binary_num = bin(binary_num & 0xffffffffffffffff)[2:].zfill(64)
+    else:
+        return "Invalid number of bits. Please specify either 32 or 64."
 
-    # 计算指数位数
-    exp = 0
-    while num >= 2:
-        num /= 2
-        exp += 1
-    while num < 1:
-        num *= 2
-        exp -= 1
-
-    # 调整指数范围
-    exp += 127
-    if exp < 0:
-        exp = 0
-    elif exp > 255:
-        exp = 255
-
-    # 转换尾数
-    frac = ""
-    num -= 1
-    for i in range(23):
-        num *= 2
-        if num >= 1:
-            frac += '1'
-            num -= 1
-        else:
-            frac += '0'
-
-    # 将二进制字符串拼接起来
-    sign_bit = str(sign)
-    exp_bits = format(exp, '08b')
-    frac_bits = frac.ljust(23, '0')
-    binary = sign_bit + exp_bits + frac_bits
-
-    return binary
+    return binary_num
 
 
-if __name__ == "__main__":
-    a = eval(input())
-    print(decimal_to_binary(a))
+if __name__ == '__main__':
+    decimal_num = eval(input("decimal_num: "))
+    num_bits = int(input("num_bits: "))
+    print("result:",decimal_to_binary(decimal_num, num_bits))
