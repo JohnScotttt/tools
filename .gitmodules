@@ -1,3 +1,3 @@
-[submodule "receipt_recognition"]
+[submodule "document_ocr"]
 	path = document_ocr
 	url = https://github.com/JohnScotttt/document_ocr.git
