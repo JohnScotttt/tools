@@ -1,0 +1,14 @@
+JohnShop
+ADRESS:HangzhouCity
+phone:0123456789
+No.000001
+Screwdriver
+$1.5
+Water
+$0.5
+Cheese
+$2.5
+Can
+$1.6
+Total
+$6.1
